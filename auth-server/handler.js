@@ -23,6 +23,7 @@ const credentials = {
   javascript_origins: ["https://amrizjantan.github.io", "http://localhost:3000"],
 };
 const { client_secret, client_id, redirect_uris, calendar_id } = credentials;
+
 const oAuth2Client = new google.auth.OAuth2(
   client_id,
   client_secret,
@@ -45,15 +46,14 @@ const oAuth2Client = new google.auth.OAuth2(
   return {
     statusCode: 200,
     headers: {
-      'Access-Control-Allow-Headers': '*',
-      'Access-Control-Allow-Origin' : '*',
-      'Access-Control-Allow-Credentials' : 'true',
+      "Access-Control-Allow-Origin" : "*",  
     },
     body: JSON.stringify({
       authUrl: authUrl,
     }),
   };
 };
+
 module.exports.getAccessToken = async (event) => {
   const oAuth2Client = new google.auth.OAuth2(
     client_id,
@@ -74,11 +74,60 @@ module.exports.getAccessToken = async (event) => {
       return {
         statusCode: 200,
         headers: {
-          'Access-Control-Allow-Headers': '*',
-          'Access-Control-Allow-Origin' : '*',
-          'Access-Control-Allow-Credentials' : 'true',
+          "Access-Control-Allow-Origin" : "*",
         },
         body: JSON.stringify(token),
+      };
+    })
+    .catch((err) => {
+      console.error(err);
+      return {
+        statusCode: 500,
+        body: JSON.stringify(err),
+      };
+    });
+};
+module.exports.getCalendarEvents = async (event) => {
+
+  const oAuth2Client = new google.auth.OAuth2(
+    client_id,
+    client_secret,
+    redirect_uris[0]
+  );
+  
+  const access_token = decodeURIComponent(
+    `${event.pathParameters.access_token}`
+  );
+  oAuth2Client.setCredentials({ access_token });
+
+  return new Promise((resolve, reject) => {
+    calendar.events.list(
+      {
+        calendarId: calendar_id,
+        auth: oAuth2Client,
+        timeMin: new Date().toISOString(),
+        singleEvents: true,
+        orderBy: "startTime",
+        maxResults: 32,
+      },
+      (error, response) => {
+        if (error) {
+         return reject(error);
+        } else {
+         return resolve(response);
+        }
+      }
+    );
+  })
+    .then((results) => {
+      return {
+        statusCode: 200,
+        headers: {
+          "Access-Control-Allow-Headers": "*",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Credentials": "true",
+        },
+        body: JSON.stringify({ events: results.data.items }),
       };
     })
     .catch((err) => {
