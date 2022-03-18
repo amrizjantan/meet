@@ -26,7 +26,6 @@ describe('<App /> component', () => {
   test("render number of events", () => {
     expect(AppWrapper.find(NumberOfEvents)).toHaveLength(0);
   });
-  
 });
 
   describe('<App /> integration', () => {
@@ -37,7 +36,7 @@ describe('<App /> component', () => {
     expect(AppWrapper.find(EventList).props().events).toEqual(AppEventsState);
     AppWrapper.unmount();
     });
-  });
+
 
   test('App passes "locations" state as a prop to CitySearch', () => {
     const AppWrapper = mount(<App />);
@@ -71,5 +70,13 @@ describe('<App /> component', () => {
     AppWrapper.unmount();
   });
 
+  test("passes the number of events state", () => {
+    const AppWrapper = mount(<App />);
+    const AppNumberOfEventsState = AppWrapper.state("numberOfEvents");
+    expect(AppNumberOfEventsState).not.toEqual(undefined);
+    expect(AppWrapper.find(EventList).props().numberOfEvents).toEqual(32);
+    AppWrapper.unmount();
+  });
+});
 
 
