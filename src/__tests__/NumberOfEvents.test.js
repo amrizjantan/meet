@@ -1,29 +1,18 @@
-import React from 'react';
-import { shallow } from 'enzyme';
-import { NumberOfEvents } from '../NumberOfEvents';
+import React from "react";
+import { shallow } from "enzyme";
+import NumberOfEvents from "../NumberOfEvents";
 
-describe('<NumberOfEvents /> component', () => {
-    let NumberOfEventsWrapper;
-    let spy;
+describe("<NumberOfEvents /> component", () => {
+  let NumberOfEventsWrapper;
+  beforeAll(() => {
+    NumberOfEventsWrapper = shallow(<NumberOfEvents />);
+  });
 
-    beforeAll(() => {
-        spy = jest.spyOn({ mockUpdateNumberOfEvents: () => { } }, "mockUpdateNumberOfEvents");
-        NumberOfEventsWrapper = shallow(<NumberOfEvents numberOfEvents={32} updateNumberOfEvents={spy} />);
-    });
+  test("render textbox element correctly", () => {
+    expect(NumberOfEventsWrapper.find(".newValue")).toHaveLength(1);
+  });
 
-    test('renders text input', () => {
-        expect(NumberOfEventsWrapper.find('.number')).toHaveLength(1);
-    });
-
-    test('renders text input correctly', () => {
-        expect(NumberOfEventsWrapper.find('.number').prop('value')).toBe(32);
-    });
-
-    test('change state when text input changes', () => {
-        const numberOfEventObject = { target: { value: '30' } };
-        NumberOfEventsWrapper.find('.number').simulate('change', numberOfEventObject);
-        expect(spy).toHaveBeenCalled();
-    });
-
-
+  test("Change event on textbox", () => {
+    expect(NumberOfEventsWrapper);
+  });
 });
