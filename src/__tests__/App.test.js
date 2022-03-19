@@ -7,10 +7,11 @@ import NumberOfEvents from "../NumberOfEvents";
 import { mockData } from '../mock-data';
 import { extractLocations, getEvents } from '../api';
 
-
+//Unit Testing
 describe('<App /> component', () => {
 
   let AppWrapper;
+
     beforeAll(() =>{
       AppWrapper = shallow(<App/>);
     });
@@ -25,7 +26,7 @@ describe('<App /> component', () => {
 
   test("render number of events", () => {
     expect(AppWrapper.find(NumberOfEvents)).toHaveLength(0);
-  });
+  })
 });
 
   describe('<App /> integration', () => {
