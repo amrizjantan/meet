@@ -34,13 +34,13 @@ defineFeature(feature, test => {
     });
 
     when('the user put a number of events they want to see in the “Number of events” box.', () => {
-      const inputEventsNumber = { target: { value: 12 }};
+      const inputEventsNumber = { target: { value: 32 }};
       AppWrapper.find('.numberOfEvents').simulate('change', inputEventsNumber);
       AppWrapper.update(); 
     });
 
     then('the specified number of events is displayed.', () => {
-      expect(AppWrapper.state('numberOfEvents')).toEqual(12);
+      expect(AppWrapper.state('numberOfEvents')).toEqual(32);
     });
   });
 });
