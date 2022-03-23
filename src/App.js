@@ -52,9 +52,10 @@ class App extends Component{
     return (
       <div className="App">
         <CitySearch locations={this.state.locations} updateEvents={this.updateEvents}/>
+        <br/>
         <NumberOfEvents numberOfEvents={this.state.numberOfEvents} updateEvents={this.updateEvents} />
+        <br/>
         <EventList events={this.state.events} numberOfEvents={this.state.numberOfEvents}/>
-       
       </div>
     );
   }
