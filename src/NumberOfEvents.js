@@ -13,7 +13,7 @@ export class NumberOfEvents extends Component {
         if (value <= 0 || value > 32) {
           this.setState({
             numberOfEvents: "value",
-            infoText:'Please do not enter a negative or a larger number than 32'
+            infoText:'No negative or a larger number than 32'
           });
         } else {
           this.setState({
@@ -30,9 +30,10 @@ export class NumberOfEvents extends Component {
                 <input type="number" className="numberOfEvents"
                     value={this.state.numberOfEvents}
                     onChange={this.handleInputChanged} />
+                    
                 <ErrorAlert text={this.state.infoText} />
-            </div>
-            
+               
+            </div>   
         )
     }
 };
