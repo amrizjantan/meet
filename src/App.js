@@ -12,7 +12,8 @@ class App extends Component{
   state = {
     events: [],
     locations: [],
-    numberOfEvents: 32
+    numberOfEvents: 32,
+    infoText: null,
   }
 
   componentDidMount() {
@@ -26,18 +27,7 @@ class App extends Component{
         });
       }
     });
-
-    if (!navigator.onLine) {
-      this.setState({
-        OfflineAlertText: 'You are not connected to the Internet'
-      });
-    } else {
-      this.setState({
-        OfflineAlertText: ''
-      });
-    }
   }
-
   componentWillUnmount(){
     this.mounted = false;
   }
@@ -53,20 +43,34 @@ class App extends Component{
         this.setState({
           events: locationEvents.slice(0, this.state.numberOfEvents),
           currentLocation: location,
-          numberOfEvents: eventCount
+          numberOfEvents: eventCount,
         });
       }
     });
   };
 
+  showOnlineStatus = (event) => {
+    if (!navigator.onLine) {
+      this.setState({
+        infoText: 'YOU ARE OFFLINE'
+      });
+    } else {
+      this.setState({
+        infoText: ''
+      });
+    }
+  }
+
   render() {
     return (
       <div className="App">
+        <OfflineAlert text={this.state.infoText} />
         <CitySearch locations={this.state.locations} updateEvents={this.updateEvents}/>
         <br/>
         <NumberOfEvents numberOfEvents={this.state.numberOfEvents} updateEvents={this.updateEvents} />
         <br/>
         <EventList events={this.state.events} numberOfEvents={this.state.numberOfEvents}/>
+       
       </div>
     );
   }
