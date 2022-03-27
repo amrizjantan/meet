@@ -5,6 +5,7 @@ import CitySearch from './CitySearch';
 import NumberOfEvents from "./NumberOfEvents";
 import { getEvents, extractLocations } from './api';
 import './nprogress.css';
+import { OfflineAlert } from './Alert';
 
 
 class App extends Component{
@@ -25,6 +26,16 @@ class App extends Component{
         });
       }
     });
+
+    if (!navigator.onLine) {
+      this.setState({
+        OfflineAlertText: 'You are not connected to the Internet'
+      });
+    } else {
+      this.setState({
+        OfflineAlertText: ''
+      });
+    }
   }
 
   componentWillUnmount(){
