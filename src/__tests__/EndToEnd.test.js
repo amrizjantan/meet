@@ -17,9 +17,7 @@ describe("show/hide an event details", () => {
     await page.waitForSelector(".event");
   });
 
-  afterAll(() => {
-    browser.close();
-  });
+ 
 
   test("An event element is collapsed by default", async () => {
     const eventDetails = await page.$(".event .event__Details");
@@ -37,5 +35,9 @@ describe("show/hide an event details", () => {
     await page.click(".event .details-button");
     const eventDetails = await page.$(".event .event__Details");
     expect(eventDetails).toBeNull();
+  });
+
+  afterAll(() => {
+    browser.close();
   });
 });

@@ -24,7 +24,7 @@ describe('<App /> component', () => {
     expect(AppWrapper.find(CitySearch)).toHaveLength(1);
   });
 
-  test("testing to see if NumberOfEvents renders properly!", () => {
+  test ('render NumberOfEvents', () => {
     expect(AppWrapper.find(NumberOfEvents)).toHaveLength(1);
   });
 });
@@ -70,6 +70,27 @@ describe('<App /> component', () => {
     expect(AppWrapper.state('events')).toEqual(allEvents);
     AppWrapper.unmount();
   });
+
+
+  
+
+
+  
+  test('The number of events loaded initially should be 32', async () => {
+    const AppWrapper = mount(<App />);
+    expect(AppWrapper.state('numberOfEvents')).toBe('32');
+    AppWrapper.unmount();
+  })
+
+
+  test('The state of "numberOfEvents" within App changes when number input changes', async () => {
+    const AppWrapper = mount(<App />);
+    const numberInput = AppWrapper.find(NumberOfEvents).find('#number-of-events__input');
+    const eventObject = { target: { value: '15' } };
+    numberInput.at(0).simulate('change', eventObject);
+    expect(AppWrapper.state('numberOfEvents')).toBe('15');
+    AppWrapper.unmount();
+  })
 
   test("passes the number of events state", () => {
     const AppWrapper = mount(<App />);

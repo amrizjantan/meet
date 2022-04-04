@@ -13,19 +13,19 @@ import axios from 'axios';
 import NProgress from 'nprogress';
 
 
+
 export const extractLocations = (events) => {
   var extractLocations = events.map((event) => event.location);
   var locations = [...new Set(extractLocations)];
   return locations;
 };
 
-const checkToken = async (accessToken) => {
+export const checkToken = async (accessToken) => {
   const result = await fetch(
     `https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=${accessToken}`
   )
     .then((res) => res.json())
     .catch((error) => error.json());  
-
   return result;
 };
 
@@ -43,6 +43,7 @@ export const getEvents = async () => {
     // console.log(events);
     return data ? JSON.parse(data).events:[];;
   }
+  
   const token = await getAccessToken();
 
    if (token) {
@@ -59,19 +60,6 @@ export const getEvents = async () => {
    }
  };
 
- const removeQuery = () => {
-  if (window.history.pushState && window.location.pathname) {
-    var newurl =
-      window.location.protocol +
-      "//" +
-      window.location.host +
-      window.location.pathname;
-    window.history.pushState("", "", newurl);
-  } else {
-    newurl = window.location.protocol + "//" + window.location.host;
-    window.history.pushState("", "", newurl);
-  }
-};
 
 export const getAccessToken = async () => {
 const accessToken = localStorage.getItem('access_token');
@@ -92,6 +80,22 @@ if (!accessToken || tokenCheck.error) {
 }
 return accessToken;
 }
+
+
+const removeQuery = () => {
+  if (window.history.pushState && window.location.pathname) {
+    var newurl =
+      window.location.protocol +
+      "//" +
+      window.location.host +
+      window.location.pathname;
+    window.history.pushState("", "", newurl);
+  } else {
+    newurl = window.location.protocol + "//" + window.location.host;
+    window.history.pushState("", "", newurl);
+  }
+};
+
 
 const getToken = async (code) => {
   const encodeCode = encodeURIComponent(code);
