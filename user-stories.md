@@ -1,4 +1,5 @@
 User Stories
+
 FEATURE 2: As a user, I should be able to interact with events so that I am able to expand and collapse individual events to view their information.
 Scenario 1: An event element is collapsed by default
 Given the main page is open
