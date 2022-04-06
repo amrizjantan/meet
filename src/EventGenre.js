@@ -1,28 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
+import { PieChart, Pie, Cell, ResponsiveContainer , Legend} from 'recharts';
 
 const EventGenre = ({ events }) => {
   const [data, setData] = useState([]);
-  useEffect(() => {
-    const getData = () => {
-      const genres = ['React', 'JavaScript', 'Node.js', 'jQuery', 'AngularJS'];
+  const colors = ['#d0427f', '#f8a01f', '#528272', '#f542d7', '#7dbeb8', '#5c69a0','#42f54e', '#DC143C', '#0088FE', '#00C49F'];
+ 
+  useEffect(() => { setData(() => getData());}, [events]);
 
-      const data = genres.map((genre) => {
-        const value = events.filter(({ summary }) =>
-          summary.split(' ').includes(genre)
-        ).length;
-        return { name: genre, value };
-      });
-      return data;
-    };
-    setData(() => getData());
-  }, [events]);
+  const getData = () => {
+    const genres = ['React', 'JavaScript','JavaScript!!', 'Node', 'Node.js', 'jQuery', 'Angular', 'AngularJS','AngularJS-Remote','jQuery,',];
+  
+    const data = genres.map((genre) => {
+      const value = events.filter((event) => event.summary.split(' ').includes(genre)).length;
+      return { name: genre, value: value };
+    });
+    return data;
+  };
 
-  const colors = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#F4B393'];
 
   return (
     <ResponsiveContainer height={400}>
-      <PieChart width={400} height={400}>
+      <PieChart width={300} height={300}>
         <Pie
           data={data}
           cx={200}
@@ -30,14 +28,12 @@ const EventGenre = ({ events }) => {
           labelLine={false}
           outerRadius={80}
           dataKey="value"
-          label={({ name, percent }) =>
-            `${name} ${(percent * 100).toFixed(0)}%`
-          }
         >
           {data.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={colors[index]} />
           ))}
         </Pie>
+        <Legend layout="horizontal" verticalAlign="top" align="center" height={45}/>
       </PieChart>
     </ResponsiveContainer>
   );
